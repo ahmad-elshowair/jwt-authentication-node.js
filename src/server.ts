@@ -16,3 +16,5 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(PORT, () => {
     console.log(`the server works on http://localhost:${PORT}`);
 });
+
+export default app;
