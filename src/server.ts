@@ -3,9 +3,10 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import rate_limit from 'express-rate-limit';
 import errorMiddleware from './middlewares/error';
+import { config } from './config/config';
 
 // initialize port variable
-const PORT = 8000;
+const port = config.port;
 
 // declare an instance of express
 const app: Application = express();
@@ -48,8 +49,8 @@ app.post('/', (req: Request, res: Response) => {
 app.use(errorMiddleware);
 
 // start the express server
-app.listen(PORT, () => {
-    console.log(`the server works on http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`the server works on http://localhost:${port}`);
 });
 
 // export the app
