@@ -2,6 +2,7 @@ import express, { Request, Response, Application } from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rate_limit from 'express-rate-limit';
+import errorMiddleware from './middlewares/error';
 
 // initialize port variable
 const PORT = 8000;
@@ -42,6 +43,9 @@ app.post('/', (req: Request, res: Response) => {
         data: req.body,
     });
 });
+
+// error middleware
+app.use(errorMiddleware);
 
 // start the express server
 app.listen(PORT, () => {
