@@ -9,7 +9,7 @@ const errorMiddleware = (
     const status = error.status || 500;
     const message = error.message || 'oops something wrong just occurred';
     res.status(status).json({ status, message });
-    // next();
+    next();
 };
 
 export default errorMiddleware;
