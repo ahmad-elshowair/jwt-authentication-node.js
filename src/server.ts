@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import rate_limit from 'express-rate-limit';
 import errorMiddleware from './middlewares/error';
 import config from './config/config';
-import db from './database/pool';
+import routes from './routes';
 
 // initialize port variable
 const port = config.port;
@@ -15,7 +15,7 @@ const app: Application = express();
 // declare the limitations of requests
 const limiter = rate_limit({
     windowMs: 15 * 60 * 1000,
-    max: 2,
+    max: 20,
     standardHeaders: true,
     legacyHeaders: false,
     message: 'you have requested a lot, in 15 mins you can try again',
@@ -33,35 +33,21 @@ app.use(morgan('common'));
 // use Helmet to secure my express
 app.use(helmet());
 
+app.use(routes);
+
 // add get request with the route /
 app.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Hey There !' });
-});
-
-// add post request
-app.post('/', (req: Request, res: Response) => {
-    res.json({
-        message: 'hi from post request',
-        data: req.body,
-    });
+    res.json({ message: 'Hey There main server!' });
 });
 
 // error middleware
 app.use(errorMiddleware);
 
-// test db
-
-db.connect().then(async (client) => {
-    try {
-        const res = await client.query('SELECT NOW()');
-        client.release();
-        console.log(res.rows);
-    } catch (error) {
-        client.release;
-        console.log(error);
-    }
+app.use((_req: Request, res: Response) => {
+    res.status(404).json({
+        message: 'you got lost dude ! ',
+    });
 });
-
 // start the express server
 app.listen(port, () => {
     console.log(`the server works on http://localhost:${port}`);
