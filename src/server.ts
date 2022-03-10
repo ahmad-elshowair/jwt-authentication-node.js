@@ -3,7 +3,8 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import rate_limit from 'express-rate-limit';
 import errorMiddleware from './middlewares/error';
-import { config } from './config/config';
+import config from './config/config';
+import db from './database/pool';
 
 // initialize port variable
 const port = config.port;
@@ -47,6 +48,19 @@ app.post('/', (req: Request, res: Response) => {
 
 // error middleware
 app.use(errorMiddleware);
+
+// test db
+
+db.connect().then(async (client) => {
+    try {
+        const res = await client.query('SELECT NOW()');
+        client.release();
+        console.log(res.rows);
+    } catch (error) {
+        client.release;
+        console.log(error);
+    }
+});
 
 // start the express server
 app.listen(port, () => {
