@@ -1,6 +1,12 @@
 import db from '../database/pool';
 import User from '../types/user';
+import config from '../config/config';
+import bcrypt from 'bcrypt';
 
+// function to hash the password
+const hash = (password: string): string => {
+    return bcrypt.hashSync(password + config.pepper, config.salt);
+};
 class UserModel {
     // create user
     async create(user: User): Promise<User> {
@@ -14,7 +20,7 @@ class UserModel {
                 user.user_name,
                 user.first_name,
                 user.last_name,
-                user.password,
+                hash(user.password),
             ]);
             const created_user = result.rows[0];
             // release the database
@@ -71,7 +77,7 @@ class UserModel {
                 user.user_name,
                 user.first_name,
                 user.last_name,
-                user.password,
+                hash(user.password),
                 user.id,
             ]);
             const updated_user = result.rows[0];
