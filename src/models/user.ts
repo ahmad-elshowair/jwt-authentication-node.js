@@ -64,7 +64,8 @@ class UserModel {
     async update(user: User): Promise<User> {
         try {
             const connection = await db.connect();
-            const sql = `UPDATE users set email=$1, user_name=$2, first_name=$3, last_name=$4, password=$5, WHERE id=$6 RETURNING *`;
+            const sql =
+                'UPDATE users SET email=$1, user_name=$2, first_name=$3, last_name=$4, password=$5 WHERE id=$6 RETURNING *';
             const result = await connection.query(sql, [
                 user.email,
                 user.user_name,
