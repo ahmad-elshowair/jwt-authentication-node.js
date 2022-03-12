@@ -107,6 +107,34 @@ class UserModel {
         }
     }
     // authentication user
+    async login(email: string, password: string): Promise<User | null> {
+        try {
+            const connection = await db.connect();
+            const sql = 'SELECT password FROM users WHERE email=$1';
+            const result = await connection.query(sql, [email]);
+            if (result.rows.length) {
+                const { password: hash } = result.rows[0];
+                const isPasswordValid = bcrypt.compareSync(
+                    password + config.pepper,
+                    hash
+                );
+                if (isPasswordValid) {
+                    const infoUser = await connection.query(
+                        'SELECT id, user_name, first_name, last_name FROM users WHERE email=$1',
+                        [email]
+                    );
+                    return infoUser.rows[0];
+                }
+            }
+            connection.release();
+            return null;
+        } catch (error) {
+            throw new Error(`OOPs cannot login cause of: ${
+                (error as Error).message
+            }
+            `);
+        }
+    }
 }
 
 export default UserModel;
