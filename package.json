@@ -13,8 +13,9 @@
         "lint": "eslint . --ext .ts",
         "lint-fix": "eslint . --ext .ts --fix",
         "jasmine": "jasmine",
-        "test": "yarn build && yarn jasmine",
-        "up-migrate": "npx db-migrate up"
+        "up-migrate": "npx db-migrate up",
+        "reset-migrate": "npx db-migrate reset",
+        "test": "set NODE_ENV=test && db-migrate --env test up && npx tsc && jasmine && db-migrate --env test reset"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
@@ -32,6 +33,7 @@
         "eslint-plugin-prettier": "^4.0.0",
         "jasmine": "^4.0.2",
         "jasmine-spec-reporter": "^7.0.0",
+        "jasmine-ts": "^0.4.0",
         "nodemon": "^2.0.15",
         "prettier": "^2.5.1",
         "supertest": "^6.2.2",
