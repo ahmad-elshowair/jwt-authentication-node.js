@@ -103,7 +103,7 @@ export const login = async (
     try {
         const { email, password } = req.body;
         const user = await user_model.login(email, password);
-        const token = jwt.sign({ user }, config.jwt);
+        const token = jwt.sign({ user }, config.token_secret);
         if (!user) {
             res.json({
                 status: 'succeed',

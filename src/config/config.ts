@@ -14,5 +14,5 @@ export default {
     db_port: Number(process.env.PG_PORT),
     pepper: process.env.BCRYPT_PASSWORD,
     salt: Number(process.env.SALT_ROUNDS),
-    jwt: String(process.env.JWT_SECRET),
+    token_secret: String(process.env.JWT_SECRET),
 };
