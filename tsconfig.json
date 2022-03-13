@@ -95,6 +95,11 @@
   },
   "exclude": [
     "node_modules",
+    "dist",
     "spec"
+  ],
+  "include": [
+    "./src",
+    "src/helper/reporter.ts"
   ]
 }

@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
 import UserModel from '../models/user';
-import User from '../types/user';
 
 const user_model = new UserModel();
 export const create_user = async (
@@ -60,15 +59,7 @@ export const edit_user = async (
     next: NextFunction
 ) => {
     try {
-        const user: User = {
-            id: String(req.params.id),
-            email: req.body.email,
-            user_name: req.body.user_name,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            password: req.body.password,
-        };
-        const updated_user = await user_model.update(user);
+        const updated_user = await user_model.update(req.body);
         res.json({
             message: 'you had been updated',
             data: updated_user,
