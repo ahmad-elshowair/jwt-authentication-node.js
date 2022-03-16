@@ -13,8 +13,8 @@
         "lint": "eslint . --ext .ts",
         "lint-fix": "eslint . --ext .ts --fix",
         "jasmine": "jasmine",
-        "up-migrate": "npx db-migrate up",
-        "reset-migrate": "npx db-migrate reset",
+        "migrate:up": "npx db-migrate up",
+        "migrate:reset": "npx db-migrate reset",
         "test": "set NODE_ENV=test && db-migrate --env test up && npx tsc && jasmine && db-migrate --env test reset"
     },
     "devDependencies": {

@@ -9,11 +9,15 @@ const handle_unauthenticated = (next: NextFunction) => {
     next(error);
 };
 
-const authenticate_user = (req: Request, res: Response, next: NextFunction) => {
+const authenticate_user = (
+    req: Request,
+    _res: Response,
+    next: NextFunction
+) => {
     try {
-        const header_auth = req.headers['authorization'];
+        const header_auth = req.get('Authorization');
         if (header_auth) {
-            const bearer = header_auth?.split(' ')[0].toLowerCase();
+            const bearer = header_auth.split(' ')[0].toLowerCase();
             const token = header_auth.split(' ')[1];
             if (token && bearer === 'bearer') {
                 const decoded = jwt.verify(token, config.token_secret);
